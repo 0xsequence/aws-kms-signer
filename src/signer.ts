@@ -11,7 +11,6 @@ import { SubjectPublicKeyInfo } from "@peculiar/asn1-x509";
 import {
   ethers,
   getBytes,
-  keccak256,
   toBeHex,
   toBigInt,
   N as secp256k1N,
@@ -20,7 +19,7 @@ import {
 } from "ethers";
 
 export class AwsKmsSigner extends ethers.AbstractSigner {
-  private address?: string;
+  private address?: Promise<string>;
   private pubkey?: string;
 
   private readonly client: () => KMSClient;
@@ -34,12 +33,12 @@ export class AwsKmsSigner extends ethers.AbstractSigner {
     this.region = region;
   }
 
-  async getAddress(): Promise<string> {
+  getAddress(): Promise<string> {
     if (!this.address) {
-      this.address = await this.getPubkey();
+      this.address = this.getPubkey().then(ethers.computeAddress)
     }
 
-    return this.address;
+    return this.address
   }
 
   signMessage(message: string | ethers.BytesLike): Promise<string> {
@@ -116,14 +115,9 @@ export class AwsKmsSigner extends ethers.AbstractSigner {
         SubjectPublicKeyInfo,
       ).subjectPublicKey;
 
-      // Checksummed address
-      const address = ethers.getAddress(
-        `0x${keccak256(
-          new Uint8Array(ecPublicKey.slice(1, ecPublicKey.byteLength)),
-        ).slice(-40)}`,
-      );
-
-      return address;
+      // Store the uncompressed public key
+      this.pubkey = `0x${Buffer.from(ecPublicKey).toString('hex')}`;
+      return this.pubkey;
     }
 
     return this.pubkey;
