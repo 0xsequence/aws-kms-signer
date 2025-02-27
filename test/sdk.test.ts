@@ -91,41 +91,41 @@ it('should sign typed data with sequence smart account', async () => {
       projectAccessKey: 'AQAAAAAAAHqkq694NhWZQdSNJyA6ubOK494'
     })
 
-    const signer = session.account.getSigner(Number(chainId));
+    const sessionSigner = session.account.getSigner(Number(chainId));
 
-  const typedData = {
-    domain: {
-      name: "Ether Mail",
-      version: "1",
-      chainId: await signer.getChainId(),
-      verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
-    },
-    types: {
-      Person: [
-        { name: "name", type: "string" },
-        { name: "wallet", type: "address" },
-      ],
-    },
-    message: {
-      name: "Bob",
-      wallet: "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
-    },
-  };
+    const typedData = {
+      domain: {
+        name: "Ether Mail",
+        version: "1",
+        chainId: await sessionSigner.getChainId(),
+        verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
+      },
+      types: {
+        Person: [
+          { name: "name", type: "string" },
+          { name: "wallet", type: "address" },
+        ],
+      },
+      message: {
+        name: "Bob",
+        wallet: "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
+      },
+    };
 
-  const signature = await signer.signTypedData(
-    typedData.domain,
-    typedData.types,
-    typedData.message
-  )
+    const signature = await sessionSigner.signTypedData(
+      typedData.domain,
+      typedData.types,
+      typedData.message
+    )
 
-  const isValid = await isValidTypedDataSignature(
-    await signer.getAddress(),
-    typedData,
-    signature,
-    provider
-  )
+    const isValid = await isValidTypedDataSignature(
+      await sessionSigner.getAddress(),
+      typedData,
+      signature,
+      provider
+    )
 
-  expect(isValid).to.be.true
+    expect(isValid).to.be.true
 }, 100000)
 
 it('should throw on invalid from address', async () => {
@@ -157,7 +157,7 @@ it('should sign a message with sequence smart account', async () => {
     ethers.concat([eip191prefix, ethers.toUtf8Bytes(String(messageBytes.length)), messageBytes])
   )
 
-  const signature = await session.account.signMessage(prefixedMessage, chainId)
+  const signature = await session.account.signMessage(prefixedMessage, chainId, 'eip6492')
   console.log('Signature', signature)
   const isValid = await isValidMessageSignature(session.account.address, message, signature, provider)
 
