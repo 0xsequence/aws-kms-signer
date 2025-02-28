@@ -1,4 +1,4 @@
-# aws-kms-ethers-signer
+# aws-kms-signer
 
 An [ethers.js](https://ethers.org) and [sequence.js](https://github.com/0xsequence/sequence.js)-compatible signer using [AWS Key Management Service](https://aws.amazon.com/kms/) keys.
 
@@ -32,11 +32,11 @@ An [ethers.js](https://ethers.org) and [sequence.js](https://github.com/0xsequen
 ## Installation
 
 ```bash
-npm install aws-kms-signer
+npm install @0xsequence/aws-kms-signer
 # or
-yarn add aws-kms-signer
+yarn add @0xsequence/aws-kms-signer
 # or
-pnpm add aws-kms-signer
+pnpm add @0xsequence/aws-kms-signer
 ```
 
 ## Usage
@@ -76,7 +76,7 @@ const connectedSigner = signer.connect(provider)
 
 const tx = {
   to: '0x...',
-  value: ethers.parseEther('0.1')
+  value: 1
 }
 
 const response = await connectedSigner.sendTransaction(tx)
@@ -113,13 +113,29 @@ const signature = await signer.signTypedData(domain, types, value)
 
 ```typescript
 import { Session } from '@0xsequence/auth'
+import { AwsKmsSigner } from 'aws-kms-signer'
+import { KMSClient } from '@aws-sdk/client-kms'
+
+const signer = new AwsKmsSigner(
+  process.env.AWS_REGION,
+  process.env.AWS_KMS_KEY_ID
+)
 
 const session = await Session.singleSigner({
   signer,
   projectAccessKey: 'YOUR_PROJECT_ACCESS_KEY'
 })
 
-// Use session.account for transactions and signing
+const tx = {
+  to: '0x...',
+  value: 1
+}
+
+const chainId = 421614 //
+
+const response = await session.account.sendTransaction(tx, chainId)
+const receipt = await response.wait()
+console.log('Transaction receipt:', receipt)
 ```
 
 ## Development
@@ -129,8 +145,11 @@ const session = await Session.singleSigner({
 Create a `.env` file in the root directory:
 
 ```env
-AWS_REGION=us-east-1
-AWS_KMS_KEY_ID=your_key_arn
+AWS_REGION=
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_KMS_KEY_ID=
+PROJECT_ACCESS_KEY=
 ```
 
 ### Running Tests

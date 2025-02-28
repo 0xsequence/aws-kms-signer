@@ -29,30 +29,18 @@ it('should sign a message with kms EOA', async () => {
   expect(address).to.equal(await awsKmsEthersSigner.getAddress())
 }, 100000)
 
-it('should send a transaction using the sequence smart account', async () => {
-    awsKmsEthersSigner.connect(provider)
-    
+it('should send a transaction using the sequence smart account on arbitrum sepolia', async () => {
     const session = await Session.singleSigner({ signer: awsKmsEthersSigner, projectAccessKey: process.env.PROJECT_ACCESS_KEY! })
-    
+
     const tx = {
-        to: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
-        value: 1,
+      to: '0x42420815C55d7A8F9a79227be7070dac9a2Bb113',
+      value: 1,
     }
 
-    const sessionSigner = session.account.getSigner(84532);
-    const smartAccountAddress = session.account.address
+    const arbitrumSepoliaChainId = 421614;
 
-    let balance = await provider.getBalance(smartAccountAddress)
-    if (balance < BigInt(1000000000)) {
-        const faucet = new ethers.Wallet('0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80').connect(provider)
-        await (await faucet.sendTransaction({ to: smartAccountAddress, value: '1000000000000000000' })).wait()
-        balance = await provider.getBalance(smartAccountAddress)
-    }
-
-    const response: TransactionResponse | undefined = await sessionSigner.sendTransaction(tx);
+    const response: TransactionResponse | undefined = await session.account.sendTransaction(tx, arbitrumSepoliaChainId);
     const receipt = await response?.wait();
-
-    console.log(receipt, "RECEIPT");
 
     expect(receipt?.status).to.equal(1)
 }, 100000)
