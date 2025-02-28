@@ -1,11 +1,17 @@
 {
   "name": "@0xsequence/aws-kms-signer",
   "version": "0.1.0",
+  "access": "public",
+  "github": "https://github.com/0xsequence/aws-kms-signer",
   "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
   "description": "An ethers.js and sequence.js-compatible signer using AWS Key Management Service keys.",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "keywords": [
     "ethers",
     "sequence",
@@ -34,7 +40,7 @@
     "prepare": "pnpm run build",
     "changeset": "changeset",
     "version": "changeset version",
-    "release": "npm run build && changeset publish --access public"
+    "release": "pnpm run build && changeset publish --access public"
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
