@@ -1,7 +1,15 @@
 {
-  "extends": "../tsconfig/base.json",
+  "extends": "./base.json",
   "compilerOptions": {
     "module": "CommonJS",
-    "outDir": "../dist/cjs"
-  }
+    "outDir": "../dist/cjs",
+    "removeComments": true,
+    "verbatimModuleSyntax": false,
+    "noEmit": false,
+    "rootDir": "../src",
+    "declaration": false
+  },
+  "exclude": [
+    "../test/**/*.*"
+  ]
 }

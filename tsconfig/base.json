@@ -1,22 +1,33 @@
 {
+  "include": ["../src/**/*"],
+  "exclude": ["../test/**/*.*"],
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "declaration": true,
-    "strict": true,
+    "incremental": false,
+    "useDefineForClassFields": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "useUnknownInCatchVariables": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowJs": false,
+    "checkJs": false,
     "esModuleInterop": true,
-    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": false,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "../dist",
-    "rootDir": "../src"
+    "verbatimModuleSyntax": true,
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "target": "es2020",
+    "lib": ["es2020"],
+    "skipLibCheck": true,
+    "noErrorTruncation": true,
+    "noEmit": true,
+    "strict": true
   },
-  "include": [
-    "../src/**/*"
-  ],
-  "exclude": [
-    "../node_modules",
-    "../dist",
-    "../**/*.test.ts"
-  ]
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "verbose": false
+  }
 }

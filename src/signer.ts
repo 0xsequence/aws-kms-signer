@@ -3,8 +3,8 @@ import {
   KMSClient,
   SignCommand,
 } from "@aws-sdk/client-kms";
-import { Deferrable } from "@ethersproject/properties";
-import { UnsignedTransaction, serialize } from "@ethersproject/transactions";
+import { type Deferrable } from "@ethersproject/properties";
+import { type UnsignedTransaction, serialize } from "@ethersproject/transactions";
 import { ECDSASigValue } from "@peculiar/asn1-ecc";
 import { AsnConvert } from "@peculiar/asn1-schema";
 import { SubjectPublicKeyInfo } from "@peculiar/asn1-x509";

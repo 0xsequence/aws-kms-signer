@@ -1,6 +1,14 @@
 {
-  "extends": "../tsconfig/base.json",
+  "extends": "./base.json",
   "compilerOptions": {
-    "outDir": "../dist/esm"
-  }
+    "module": "ES2015",
+    "outDir": "../dist/esm",
+    "declaration": false,
+    "noEmit": false,
+    "rootDir": "../src",
+    "verbatimModuleSyntax": false
+  },
+  "exclude": [
+    "../test"
+  ]
 }
