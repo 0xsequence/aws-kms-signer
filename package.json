@@ -1,6 +1,6 @@
 {
   "name": "@0xsequence/aws-kms-signer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "access": "public",
   "github": "https://github.com/0xsequence/aws-kms-signer",
   "type": "module",
