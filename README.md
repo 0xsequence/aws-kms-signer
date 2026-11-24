@@ -1,3 +1,11 @@
+<!-- archived-repository-notice -->
+> [!WARNING]
+> **This repository is archived and no longer maintained.**
+>
+> It is part of the legacy Sequence stack and is kept here for reference only.
+> It will not receive bug fixes, security patches or releases, and packages,
+> images or deployments built from it are not supported.
+
 # aws-kms-signer
 
 An [ethers.js](https://ethers.org) and [sequence.js](https://github.com/0xsequence/sequence.js)-compatible signer using [AWS Key Management Service](https://aws.amazon.com/kms/) keys.
